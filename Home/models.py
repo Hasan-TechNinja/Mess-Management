@@ -13,7 +13,7 @@ STATUS_CHOICES = (
 )
 DIVISION_CHOICES = (
     ('Dhaka', 'Dhaka'),
-    ('Rangpur',  'Rangpur')
+    ('Rangpur', 'Rangpur'),
     ('Rahshahi', 'Rajshahi'),
     ('Khulna', 'Khulna'),
     ('Barishal', 'Barishal'),
@@ -24,11 +24,11 @@ DIVISION_CHOICES = (
 class Manager(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
-    phone = models.IntegerField(max_length=20)
-    role = models.Choices(choices=ROLE_CHOICES, max_length=2)
-    division = models.Choices(choices=DIVISION_CHOICES)
+    phone = models.IntegerField()
+    role = models.CharField(choices=ROLE_CHOICES, max_length=20)
+    division = models.CharField(choices=DIVISION_CHOICES, max_length=50)
     address = models.CharField(max_length=50)
-    status = models.Choices(choices=STATUS_CHOICES, max_length=50)
+    status = models.CharField(choices=STATUS_CHOICES, max_length=50)
     join_date = models.DateField()
     photo = models.ImageField(upload_to='Manager-Image')
 
@@ -38,18 +38,18 @@ class Manager(models.Model):
 class Border(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
-    phone = models.IntegerField(max_length=20)
-    role = models.Choices(choices=ROLE_CHOICES, max_length=2)
-    division = models.Choices(choices=DIVISION_CHOICES)
+    phone = models.IntegerField()
+    role = models.CharField(choices=ROLE_CHOICES, max_length=50)
+    division = models.CharField(choices=DIVISION_CHOICES, max_length=50)
     address = models.CharField(max_length=50)
-    status = models.Choices(choices=STATUS_CHOICES, max_length=50)
+    status = models.CharField(choices=STATUS_CHOICES, max_length=50)
     join_date = models.DateField()
     photo = models.ImageField(upload_to='Border-Image') 
     
     def __str__(self):
         return str(self.id)
     
-class MonthlyReport(models.MOdel):
+class MonthlyReport(models.Model):
     date = models.DateField()
     totalIncome = models.IntegerField() 
     totalCost = models.IntegerField()
@@ -66,10 +66,10 @@ PERIOD_CHOICES = (
     ('Dinner', 'Dinner')
 )
 class Meal(models.Model):
-    status = models.Choices(choice=STATUS_CHOICES)
-    amount = models.IntegerField(max_length=10)
+    status = models.CharField(choices=STATUS_CHOICES, max_length=10)
+    amount = models.IntegerField()
     date = models.DateField()
-    period = models.Choices(choices=PERIOD_CHOICES)
+    period = models.CharField(choices=PERIOD_CHOICES, max_length=10)
 
     def __str__(self):
         return str(self.id)
@@ -77,7 +77,7 @@ class Meal(models.Model):
 class Income(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     type = models.CharField(max_length=100)
-    amount = models.IntegerField(max_length=20)
+    amount = models.IntegerField()
     date = models.DateTimeField()
 
     def __str__(self):
@@ -86,7 +86,7 @@ class Income(models.Model):
 class Cost(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     type = models.CharField(max_length=100)
-    amount = models.IntegerField(max_length=20)
+    amount = models.IntegerField()
     date = models.DateTimeField()
 
     def __str__(self):
