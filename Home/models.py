@@ -3,49 +3,18 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
-ROLE_CHOICES = (
-    ('Manageer', 'Manager'),
-    ('Border', 'Border')
-)
-STATUS_CHOICES = (
-    ('On', 'On'),
-    ('Off', 'Off')
-)
-DIVISION_CHOICES = (
-    ('Dhaka', 'Dhaka'),
-    ('Rangpur', 'Rangpur'),
-    ('Rahshahi', 'Rajshahi'),
-    ('Khulna', 'Khulna'),
-    ('Barishal', 'Barishal'),
-    ('Chattogram', 'Chattogram'),
-    ('Mymensingh', 'Mymensingh'),
-    ('Sylhet', 'Sylhet')
-)
-class Manager(models.Model):
+class User(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
-    phone = models.IntegerField()
-    role = models.CharField(choices=ROLE_CHOICES, max_length=20)
-    division = models.CharField(choices=DIVISION_CHOICES, max_length=50)
-    address = models.CharField(max_length=50)
-    status = models.CharField(choices=STATUS_CHOICES, max_length=50)
-    join_date = models.DateField()
+    phone = models.TextField()
+    role = models.CharField(max_length=50)
+    division = models.CharField(max_length=50)
+    address = models.TextField(max_length=200)
+    status = models.CharField(max_length=50)
+    join_date = models.DateTimeField()
+    photo_name = models.CharField(max_length=50)
     photo = models.ImageField(upload_to='Manager-Image')
 
-    def __str__(self):
-        return str(self.id)
-    
-class Border(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=50)
-    phone = models.IntegerField()
-    role = models.CharField(choices=ROLE_CHOICES, max_length=50)
-    division = models.CharField(choices=DIVISION_CHOICES, max_length=50)
-    address = models.CharField(max_length=50)
-    status = models.CharField(choices=STATUS_CHOICES, max_length=50)
-    join_date = models.DateField()
-    photo = models.ImageField(upload_to='Border-Image') 
-    
     def __str__(self):
         return str(self.id)
     
@@ -58,25 +27,20 @@ class MonthlyReport(models.Model):
     
     def __str__(self):
         return str(self.id) 
-    
 
-PERIOD_CHOICES = (
-    ('Breakfast', 'Breakfast'),
-    ('Lunch', 'Lunch'),
-    ('Dinner', 'Dinner')
-)
 class Meal(models.Model):
-    status = models.CharField(choices=STATUS_CHOICES, max_length=10)
+    user_id = models.IntegerField()
+    status = models.CharField(max_length=50)
     amount = models.IntegerField()
-    date = models.DateField()
-    period = models.CharField(choices=PERIOD_CHOICES, max_length=10)
+    date = models.DateTimeField()
+    period = models.CharField(max_length=50)
 
     def __str__(self):
         return str(self.id)
     
 class Income(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    type = models.CharField(max_length=100)
+    type = models.CharField(max_length=50) #id, title, description
     amount = models.IntegerField()
     date = models.DateTimeField()
 
@@ -84,8 +48,7 @@ class Income(models.Model):
         return str(self.id)
     
 class Cost(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    type = models.CharField(max_length=100)
+    type = models.CharField(max_length=50)
     amount = models.IntegerField()
     date = models.DateTimeField()
 
@@ -98,3 +61,28 @@ class TransactionType(models.Model):
 
     def __str__(self):
         return str(self.id)
+    
+class MealType(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return str(self.id)
+    
+class User_status(models.Model):
+    status = models.CharField(max_length=50)
+
+    def __str__(self):
+        return str(self.id)
+    
+class User_roll(models.Model):
+    roll = models.CharField(max_length=50)
+
+    def __str__(self):
+        return str(self.id)
+    
+class Period(models.Model):
+    period = models.CharField(max_length= 50)
+
+    def __str__(self):
+        return str(self.id)
+    
